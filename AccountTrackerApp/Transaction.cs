@@ -26,8 +26,8 @@
 			Ledger.Add(forwardsTransaction.TransactionId, forwardsTransaction);
 			Ledger.Add(backwardsTransaction.TransactionId, backwardsTransaction);
 
-			sourceAccount.CurrentValue += forwardsTransaction.Amount;
-			targetAccount.CurrentValue += backwardsTransaction.Amount;
+			targetAccount.CurrentValue += forwardsTransaction.Amount;
+			sourceAccount.CurrentValue += backwardsTransaction.Amount;
 		}
 	}
 }
