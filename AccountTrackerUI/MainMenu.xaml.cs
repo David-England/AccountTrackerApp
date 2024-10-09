@@ -17,11 +17,19 @@ namespace AccountTrackerUI
 	/// </summary>
 	public partial class MainMenu : Window
 	{
+		private Account _myAccount;
+
 		public MainMenu()
 		{
 			InitializeComponent();
 
-			var myAccount = new Account("My General Account", "MR X. HUMAN");
+			_myAccount = new Account("My General Account", "MR X. HUMAN");
+		}
+
+		private void btnAdd10_Click(object sender, RoutedEventArgs e)
+		{
+			Transaction.Create(Account.CreateDummy(), _myAccount, 10.00m);
+			lblAmount.Content = $"£{_myAccount.CurrentValue}";
 		}
 	}
 }

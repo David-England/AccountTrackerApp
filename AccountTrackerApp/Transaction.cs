@@ -1,6 +1,6 @@
 ﻿namespace AccountTrackerApp
 {
-	internal class Transaction
+	public class Transaction
 	{
 		public Guid TransactionId { get; init; }
 		public Account SourceAccount { get; init; }
@@ -18,8 +18,7 @@
 			Amount = amount;
 		}
 
-		public static void CreateTransaction(Account sourceAccount, Account targetAccount,
-			decimal amount)
+		public static void Create(Account sourceAccount, Account targetAccount, decimal amount)
 		{
 			var forwardsTransaction = new Transaction(sourceAccount, targetAccount, amount);
 			var backwardsTransaction = new Transaction(targetAccount, sourceAccount, -amount);

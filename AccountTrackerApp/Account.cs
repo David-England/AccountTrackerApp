@@ -13,5 +13,7 @@
 			AccountName = accountName;
 			AccountHolderName = accountHolderName;
 		}
+
+		public static Account CreateDummy() => new Account(string.Empty, string.Empty);
 	}
 }

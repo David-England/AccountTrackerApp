@@ -7,6 +7,11 @@
         mc:Ignorable="d"
         Title="Main Menu" Height="400" Width="800">
     <Grid>
-        <Label Content="Some placeholder text...."/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Name="lblAmount" Grid.Row="0" Content="Some placeholder text...." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button Name="btnAdd10" Grid.Row="1" Content="Add £10.00" Background="BlanchedAlmond" HorizontalAlignment="Center" VerticalAlignment="Center" Width="120" Click="btnAdd10_Click"/>
     </Grid>
 </Window>
