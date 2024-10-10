@@ -1,0 +1,15 @@
+body {
+    font-family: Bahnschrift;
+}
+
+button {
+    background-color: aqua;
+}
+
+button:active {
+    background-color: orange;
+}
+
+::selection {
+    background-color: hotpink;
+}

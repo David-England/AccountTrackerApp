@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<PageTitle>Account Tracker</PageTitle>
+
+<h1>~~ ACCOUNT TRACKER ~~</h1>
+
+<p>
+	Welcome to your account tracker.
+</p>
+
+<div>
+	<button @onclick=Add10>Add £10.00</button>
+	<button @onclick=Add20>Add £20.00</button>
+</div>
+
+<p>
+	Current value of your account: £@_myAccount.CurrentValue
+</p>
+
+@code {
+	private void Add10() => Transaction.Create(Account.CreateDummy(), _myAccount, 10.00m);
+	private void Add20() => Transaction.Create(Account.CreateDummy(), _myAccount, 20.00m);
+	private Account _myAccount = new Account("My General Account", "MR X. HUMAN");
+}
