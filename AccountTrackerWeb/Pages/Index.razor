@@ -17,8 +17,31 @@
 	Current value of your account: £@_myAccount.CurrentValue
 </p>
 
+<table>
+	@foreach (var t in MyTransactions.Reverse())
+	{
+		<tr>
+			<td>
+				@t.TargetAccount.AccountHolderName
+			</td>
+			<td>
+				£@t.Amount
+			</td>
+			<td>
+				Transaction @t.TransactionId
+			</td>
+		</tr>
+	}
+</table>
+
 @code {
 	private void Add10() => Transaction.Create(Account.CreateDummy(), _myAccount, 10.00m);
 	private void Add20() => Transaction.Create(Account.CreateDummy(), _myAccount, 20.00m);
 	private Account _myAccount = new Account("My General Account", "MR X. HUMAN");
+
+	public IEnumerable<Transaction> MyTransactions
+	{
+		get => Transaction.Ledger.Values
+			.Where(t => t.TargetAccount.AccountId == _myAccount.AccountId);
+	}
 }

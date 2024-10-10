@@ -10,6 +10,17 @@ button:active {
     background-color: orange;
 }
 
+table {
+    border-collapse: collapse;
+}
+
+td {
+    border-block-color: black;
+    border-left: solid;
+    border-right: solid;
+    padding: 5px;
+}
+
 ::selection {
     background-color: hotpink;
 }
