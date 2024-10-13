@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountTrackerUI", "Account
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountTrackerApp", "AccountTrackerApp\AccountTrackerApp.csproj", "{8BC322CB-39BF-4320-8060-A1F260D99878}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountTrackerWeb", "AccountTrackerWeb\AccountTrackerWeb.csproj", "{D0147BC7-3738-42D4-9C59-31CE0C62F099}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AccountTrackerWeb", "AccountTrackerWeb\AccountTrackerWeb.csproj", "{D0147BC7-3738-42D4-9C59-31CE0C62F099}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

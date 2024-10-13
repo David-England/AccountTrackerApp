@@ -1,0 +1,32 @@
+﻿@inject IAccountContainer AllAccounts
+
+<div class="component">
+	<p>Please provide some details for your new account:</p>
+	<div>
+		<label for="addAccountName">Account name:</label>
+		<InputText id="addAccountName" @bind-Value="_accountName" />
+	</div>
+	<div>
+		<label for="addAccountHolder">Accountholder name:</label>
+		<InputText id="addAccountHolder" @bind-Value="_accountHolderName" />
+	</div>
+
+	<button @onclick=Submit>Submit</button>
+</div>
+
+@code {
+	private string? _accountName;
+	private string? _accountHolderName;
+
+	[Parameter]
+	public EventCallback DoOnSubmit { get; set; }
+
+	private async void Submit()
+	{
+		if (_accountName != null && _accountHolderName != null)
+		{
+			AllAccounts.Accounts.Add(new Account(_accountName, _accountHolderName));
+			await DoOnSubmit.InvokeAsync();
+		}
+	}
+}

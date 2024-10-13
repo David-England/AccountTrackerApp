@@ -16,3 +16,18 @@
 		</div>
 	}
 </div>
+
+<div>
+	<button @onclick=ToggleAccountAdder>Add account</button>
+</div>
+
+@if (_showAccountAdder)
+{
+	<AccountAdder DoOnSubmit="ToggleAccountAdder" />
+}
+
+@code {
+	private bool _showAccountAdder = false;
+
+	private void ToggleAccountAdder() => _showAccountAdder = !_showAccountAdder;
+}
