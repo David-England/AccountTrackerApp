@@ -1,0 +1,18 @@
+﻿@page "/summary"
+
+@inject IAccountContainer AllAccounts
+
+<h1>ACCOUNT SUMMARY</h1>
+
+<p>Please find details for all your accounts below.</p>
+
+<div>
+	@foreach (var account in AllAccounts.Accounts)
+	{
+		<div>
+			Account name: @account.AccountName
+			Account holder: @account.AccountHolderName
+			Current balance: £@account.CurrentValue
+		</div>
+	}
+</div>
