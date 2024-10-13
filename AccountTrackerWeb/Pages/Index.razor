@@ -1,5 +1,7 @@
 ﻿@page "/"
 
+@inject NavigationManager NavigationManager
+
 <PageTitle>Account Tracker</PageTitle>
 
 <h1>~~ ACCOUNT TRACKER ~~</h1>
@@ -33,6 +35,12 @@
 		</tr>
 	}
 </table>
+
+<div>
+	<button @onclick=@(() => NavigationManager.NavigateTo("/summary"))>
+		Go to Account Summary
+	</button>
+</div>
 
 @code {
 	private void Add10() => Transaction.Create(Account.CreateDummy(), _myAccount, 10.00m);

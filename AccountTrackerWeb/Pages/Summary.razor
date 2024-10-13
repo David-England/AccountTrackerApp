@@ -1,6 +1,9 @@
 ﻿@page "/summary"
 
 @inject IAccountContainer AllAccounts
+@inject NavigationManager NavigationManager
+
+<PageTitle>Account Summary</PageTitle>
 
 <h1>ACCOUNT SUMMARY</h1>
 
@@ -25,6 +28,12 @@
 {
 	<AccountAdder DoOnSubmit="ToggleAccountAdder" />
 }
+
+<div>
+	<button @onclick=@(() => NavigationManager.NavigateTo("/"))>
+		Go to Home Page
+	</button>
+</div>
 
 @code {
 	private bool _showAccountAdder = false;
