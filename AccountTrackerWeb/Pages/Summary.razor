@@ -12,11 +12,7 @@
 <div>
 	@foreach (var account in AllAccounts.Accounts)
 	{
-		<div @onclick=@(() => NavigateToAccount(account))>
-			Account name: @account.AccountName
-			Account holder: @account.AccountHolderName
-			Current balance: £@account.CurrentValue
-		</div>
+		<AccountCard Account="account" />
 	}
 </div>
 
@@ -37,11 +33,6 @@
 
 @code {
 	private bool _showAccountAdder = false;
-
-	private void NavigateToAccount(Account account)
-	{
-		NavigationManager.NavigateTo($"/accountdetails/{account.AccountId.ToString()}");
-	}
 
 	private void ToggleAccountAdder() => _showAccountAdder = !_showAccountAdder;
 }
