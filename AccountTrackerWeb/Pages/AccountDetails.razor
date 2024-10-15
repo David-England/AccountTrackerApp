@@ -1,0 +1,27 @@
+﻿@page "/accountdetails/{accountid}"
+
+@inject IAccountContainer AllAccounts
+@inject NavigationManager NavigationManager
+
+<PageTitle>@GetAccount()?.AccountName | Details</PageTitle>
+
+<h1>ACCOUNT DETAILS: @GetAccount()?.AccountName.ToUpper()</h1>
+
+<p>Account: @GetAccount()?.AccountName</p>
+<p>Accountholder: @GetAccount()?.AccountHolderName</p>
+
+<div>
+	<button @onclick=@(() => NavigationManager.NavigateTo("/summary"))>
+		Go back to Account Summary
+	</button>
+</div>
+
+@code {
+	[Parameter]
+	public string? AccountId { get; set; }
+
+	private Account? GetAccount()
+	{
+		return AllAccounts.Accounts.FirstOrDefault(a => a.AccountId.ToString() == AccountId);
+	}
+}
