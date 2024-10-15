@@ -9,12 +9,10 @@
 
 <p>Please find details for all your accounts below.</p>
 
-<div>
-	@foreach (var account in AllAccounts.Accounts)
-	{
-		<AccountCard Account="account" />
-	}
-</div>
+@foreach (var account in AllAccounts.Accounts)
+{
+	<AccountCard Account="account" />
+}
 
 <div>
 	<button @onclick=ToggleAccountAdder>Add account</button>
