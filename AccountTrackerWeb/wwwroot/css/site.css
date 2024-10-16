@@ -12,6 +12,7 @@ button:active {
 
 table {
     border-collapse: collapse;
+    margin: 5px;
 }
 
 td {

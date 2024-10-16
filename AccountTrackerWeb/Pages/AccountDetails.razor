@@ -19,6 +19,17 @@
 	<ExternalTransactionIn Account="GetAccount()" DoOnSubmit="ToggleExternalTransferIn" />
 }
 
+<table>
+	@foreach (var transaction in GetTransactions().Reverse())
+	{
+		<tr>
+			<td>@transaction.SourceAccount.AccountHolderName</td>
+			<td>@transaction.TargetAccount.AccountName</td>
+			<td>£@transaction.Amount</td>
+		</tr>
+	}
+</table>
+
 <div>
 	<button @onclick=@(() => NavigationManager.NavigateTo("/summary"))>
 		Go back to Account Summary
@@ -34,6 +45,12 @@
 	private Account? GetAccount()
 	{
 		return AllAccounts.Accounts.FirstOrDefault(a => a.AccountId.ToString() == AccountId);
+	}
+
+	private IEnumerable<Transaction> GetTransactions()
+	{
+		return Transaction.Ledger.Values
+			.Where(t => t.TargetAccount.AccountId == GetAccount()?.AccountId);
 	}
 
 	private void ToggleExternalTransferIn() => _showExternalTransferIn = !_showExternalTransferIn;
