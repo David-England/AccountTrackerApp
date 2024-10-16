@@ -18,17 +18,8 @@
 
 	private async void Submit()
 	{
-		try
-		{
-			decimal parsedAmount = Convert.ToDecimal(_amount);
-
-			if (parsedAmount > 0m)
-				Transaction.Create(Account.CreateDummy(), GetAccount(), parsedAmount);
-		}
-		catch
-		{
-			// Just don't submit
-		}
+		if (decimal.TryParse(_amount, out decimal parsedAmount) && parsedAmount > 0m)
+			Transaction.Create(Account.CreateDummy(), GetAccount(), parsedAmount);
 
 		await DoOnSubmit.InvokeAsync();
 	}
