@@ -22,7 +22,11 @@ td {
 }
 
 .component {
-    border: 5px solid blue;
+    background-color: lightblue;
+    border-left: 2px solid black;
+    margin: 5px;
+    padding: 5px;
+    width: fit-content;
 }
 
 ::selection {
