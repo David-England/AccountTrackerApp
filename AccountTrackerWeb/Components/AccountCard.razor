@@ -1,4 +1,5 @@
-﻿@inject NavigationManager NavigationManager
+﻿@inherits AccountComponentBase
+@inject NavigationManager NavigationManager
 
 <div class="component" @onclick=NavigateToAccount>
 	Account name: @GetAccount().AccountName
@@ -7,15 +8,6 @@
 </div>
 
 @code {
-	[Parameter]
-	[EditorRequired]
-	public Account? Account { get; set; }
-
-	private Account GetAccount()
-	{
-		return Account ?? throw new NullReferenceException("Account not found");
-	}
-
 	private void NavigateToAccount()
 	{
 		NavigationManager.NavigateTo($"/accountdetails/{GetAccount().AccountId.ToString()}");

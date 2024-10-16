@@ -11,12 +11,23 @@
 <p>Accountholder: @GetAccount()?.AccountHolderName</p>
 
 <div>
+	<button @onclick=ToggleExternalTransferIn>Add money</button>
+</div>
+
+@if (_showExternalTransferIn)
+{
+	<ExternalTransactionIn Account="GetAccount()" DoOnSubmit="ToggleExternalTransferIn" />
+}
+
+<div>
 	<button @onclick=@(() => NavigationManager.NavigateTo("/summary"))>
 		Go back to Account Summary
 	</button>
 </div>
 
 @code {
+	private bool _showExternalTransferIn = false;
+
 	[Parameter]
 	public string? AccountId { get; set; }
 
@@ -24,4 +35,6 @@
 	{
 		return AllAccounts.Accounts.FirstOrDefault(a => a.AccountId.ToString() == AccountId);
 	}
+
+	private void ToggleExternalTransferIn() => _showExternalTransferIn = !_showExternalTransferIn;
 }

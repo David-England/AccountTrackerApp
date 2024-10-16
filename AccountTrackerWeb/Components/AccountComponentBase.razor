@@ -1,0 +1,10 @@
+﻿@code {
+	[Parameter]
+	[EditorRequired]
+	public Account? Account { get; set; }
+
+	private protected virtual Account GetAccount()
+	{
+		return Account ?? throw new NullReferenceException("Account not found");
+	}
+}

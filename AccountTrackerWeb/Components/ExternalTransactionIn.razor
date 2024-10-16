@@ -1,0 +1,35 @@
+﻿@inherits AccountComponentBase
+
+<div class="component">
+	<p>Please enter some details for your transaction:</p>
+	<div>
+		<label for="amount">Amount (GBP£):</label>
+		<InputText id="amount" @bind-Value="_amount" />
+	</div>
+
+	<button @onclick=Submit>Submit</button>
+</div>
+
+@code {
+	private string? _amount;
+
+	[Parameter]
+	public EventCallback DoOnSubmit { get; set; }
+
+	private async void Submit()
+	{
+		try
+		{
+			decimal parsedAmount = Convert.ToDecimal(_amount);
+
+			if (parsedAmount > 0m)
+				Transaction.Create(Account.CreateDummy(), GetAccount(), parsedAmount);
+		}
+		catch
+		{
+			// Just don't submit
+		}
+
+		await DoOnSubmit.InvokeAsync();
+	}
+}
