@@ -15,7 +15,7 @@
 			TransactionId = Guid.NewGuid();
 			SourceAccount = sourceAccount;
 			TargetAccount = targetAccount;
-			Amount = amount;
+			Amount = decimal.Round(amount, 2);
 		}
 
 		public static void Create(Account sourceAccount, Account targetAccount, decimal amount)
