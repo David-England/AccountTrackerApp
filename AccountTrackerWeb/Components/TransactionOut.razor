@@ -38,18 +38,22 @@
 			.ToList();
 	}
 
-	private Account GetAccount(Guid accountId)
+	private Account? GetAccount(Guid accountId)
 	{
 		if (accountId == _externalAccount.AccountId)
 			return _externalAccount;
 		else
-			return GetAllOtherAccounts().First(a => a.AccountId == accountId);
+			return GetAllOtherAccounts().FirstOrDefault(a => a.AccountId == accountId);
 	}
 
 	private async void Submit()
 	{
-		if (decimal.TryParse(_amount, out decimal parsedAmount) && parsedAmount > 0m)
-			Transaction.Create(GetAccount(), GetAccount(_targetAccountId), parsedAmount);
+		Account? targetAccount = GetAccount(_targetAccountId);
+
+		if (decimal.TryParse(_amount, out decimal parsedAmount)
+			&& parsedAmount > 0m
+			&& targetAccount != null)
+			Transaction.Create(GetAccount(), targetAccount, parsedAmount);
 
 		await DoOnSubmit.InvokeAsync();
 	}
