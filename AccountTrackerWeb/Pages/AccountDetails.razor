@@ -20,11 +20,20 @@
 	<ExternalTransactionIn Account="GetAccount()" DoOnSubmit="ToggleExternalTransferIn" />
 }
 
+<div>
+	<button @onclick=ToggleTransactionOut>Pay another account</button>
+</div>
+
+@if (_showTransactionOut)
+{
+	<TransactionOut Account="GetAccount()" DoOnSubmit="ToggleTransactionOut" />
+}
+
 <table>
 	@foreach (var transaction in GetTransactions().Reverse())
 	{
 		<tr>
-			<td>@transaction.SourceAccount.AccountHolderName</td>
+			<td>@transaction.SourceAccount.AccountName</td>
 			<td>@transaction.TargetAccount.AccountName</td>
 			<td>£@transaction.Amount</td>
 		</tr>
@@ -39,6 +48,7 @@
 
 @code {
 	private bool _showExternalTransferIn = false;
+	private bool _showTransactionOut = false;
 
 	[Parameter]
 	public string? AccountId { get; set; }
@@ -55,4 +65,6 @@
 	}
 
 	private void ToggleExternalTransferIn() => _showExternalTransferIn = !_showExternalTransferIn;
+
+	private void ToggleTransactionOut() => _showTransactionOut = !_showTransactionOut;
 }

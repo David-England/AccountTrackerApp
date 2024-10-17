@@ -1,0 +1,57 @@
+﻿@inherits AccountComponentBase
+@inject IAccountContainer AllAccounts
+
+<div class="component">
+	<p>Please enter some details for your transaction:</p>
+
+	<div>
+		<label for="targetAccount">To account:</label>
+		<InputSelect id="targetAccount" TValue="Guid" @bind-Value=_targetAccountId>
+			@foreach (var account in GetAllOtherAccounts())
+			{
+				<option value="@account.AccountId">@account.AccountName</option>
+			}
+			<option value="@_externalAccount.AccountId">Pay external</option>
+		</InputSelect>
+	</div>
+
+	<div>
+		<label for="amount">Amount (GBP£):</label>
+		<InputText id="amount" @bind-Value="_amount" />
+	</div>
+
+	<button @onclick=Submit>Submit</button>
+</div>
+
+@code {
+	private Guid _targetAccountId;
+	private Account _externalAccount = Account.CreateDummy();
+	private string? _amount;
+
+	[Parameter]
+	public EventCallback DoOnSubmit { get; set; }
+
+	private List<Account> GetAllOtherAccounts()
+	{
+		return AllAccounts.Accounts
+			.Where(a => a.AccountId != GetAccount().AccountId)
+			.ToList();
+	}
+
+	private Account GetAccount(Guid accountId)
+	{
+		if (accountId == _externalAccount.AccountId)
+			return _externalAccount;
+		else
+			return GetAllOtherAccounts().First(a => a.AccountId == accountId);
+	}
+
+	private async void Submit()
+	{
+		if (decimal.TryParse(_amount, out decimal parsedAmount) && parsedAmount > 0m)
+			Transaction.Create(GetAccount(), GetAccount(_targetAccountId), parsedAmount);
+
+		await DoOnSubmit.InvokeAsync();
+	}
+
+}
