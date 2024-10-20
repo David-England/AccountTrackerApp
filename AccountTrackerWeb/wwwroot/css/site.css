@@ -22,6 +22,10 @@ td {
     padding: 5px;
 }
 
+tr.negative {
+    background-color: pink;
+}
+
 .component {
     background-color: lightblue;
     border-left: 2px solid black;

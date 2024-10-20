@@ -32,7 +32,7 @@
 <table>
 	@foreach (var transaction in GetTransactions().Reverse())
 	{
-		<tr>
+		<tr class="@(transaction.Amount < 0 ? "negative" : "")">
 			<td>@DashesIfNullOrEmpty(transaction.SourceAccount.AccountName)</td>
 			<td>@DashesIfNullOrEmpty(transaction.SourceAccount.AccountHolderName)</td>
 			<td>£@transaction.Amount</td>
