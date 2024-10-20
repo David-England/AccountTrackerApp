@@ -33,8 +33,8 @@
 	@foreach (var transaction in GetTransactions().Reverse())
 	{
 		<tr>
-			<td>@transaction.SourceAccount.AccountName</td>
-			<td>@transaction.TargetAccount.AccountName</td>
+			<td>@DashesIfNullOrEmpty(transaction.SourceAccount.AccountName)</td>
+			<td>@DashesIfNullOrEmpty(transaction.SourceAccount.AccountHolderName)</td>
 			<td>£@transaction.Amount</td>
 		</tr>
 	}
@@ -67,4 +67,6 @@
 	private void ToggleExternalTransferIn() => _showExternalTransferIn = !_showExternalTransferIn;
 
 	private void ToggleTransactionOut() => _showTransactionOut = !_showTransactionOut;
+
+	private string DashesIfNullOrEmpty(string s) => string.IsNullOrEmpty(s) ? "--" : s;
 }
