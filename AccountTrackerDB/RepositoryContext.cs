@@ -24,15 +24,24 @@ namespace AccountTrackerDB
 			return TransactionPersistences.Select(tp => tp.ToTransaction());
 		}
 
-		public void SaveAccount(Account account)
+		public void AddAccount(Account account)
 		{
 			AccountPersistences.Add(AccountPersistence.Create(account));
 			SaveChanges();
 		}
 
-		public void SaveTransaction(Transaction transaction)
+		public void AddTransaction(Transaction transaction)
 		{
 			TransactionPersistences.Add(TransactionPersistence.Create(transaction));
+			SaveChanges();
+		}
+
+		public void UpdateAccount(Account account)
+		{
+			AccountPersistences
+				.First(ap => Guid.Parse(ap.AccountId!) == account.AccountId)
+				.Update(account);
+
 			SaveChanges();
 		}
 	}

@@ -6,8 +6,10 @@
 
 		public IEnumerable<Transaction> GetTransactions();
 
-		public void SaveAccount(Account account);
+		public void AddAccount(Account account);
 
-		public void SaveTransaction(Transaction transaction);
+		public void AddTransaction(Transaction transaction);
+
+		public void UpdateAccount(Account account);
 	}
 }

@@ -12,6 +12,13 @@ namespace AccountTrackerDB
 
 		public Account ToAccount() => new Account(AccountName!, AccountHolderName!);
 
+		public void Update(Account account)
+		{
+			AccountId = account.AccountId.ToString();
+			AccountName = account.AccountName;
+			AccountHolderName = account.AccountHolderName;
+		}
+
 		public static AccountPersistence Create(Account account)
 		{
 			return new AccountPersistence()
