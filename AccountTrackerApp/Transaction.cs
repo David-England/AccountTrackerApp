@@ -10,7 +10,7 @@
 		public static Dictionary<Guid, Transaction> Ledger { get; private set; }
 			= new Dictionary<Guid, Transaction>();
 
-		private Transaction(Account sourceAccount, Account targetAccount, decimal amount)
+		public Transaction(Account sourceAccount, Account targetAccount, decimal amount)
 		{
 			TransactionId = Guid.NewGuid();
 			SourceAccount = sourceAccount;
