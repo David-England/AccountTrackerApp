@@ -36,7 +36,6 @@
 
 			foreach (Transaction tx in transactions)
 			{
-				Ledger.Add(tx.TransactionId, tx);
 				tx.TargetAccount.CurrentValue += tx.Amount;
 
 				Repository.Persistence.AddTransaction(tx);
