@@ -7,12 +7,20 @@
 		public Account TargetAccount { get; init; }
 		public decimal Amount { get; init; }
 
-		public static Dictionary<Guid, Transaction> Ledger { get; private set; }
-			= new Dictionary<Guid, Transaction>();
-
-		public Transaction(Account sourceAccount, Account targetAccount, decimal amount)
+		public static Dictionary<Guid, Transaction> Ledger
 		{
-			TransactionId = Guid.NewGuid();
+			get
+			{
+				return Repository.Persistence.GetTransactions()
+					.Select(t => new KeyValuePair<Guid, Transaction>(t.TransactionId, t))
+					.ToDictionary();
+			}
+		}
+
+		public Transaction(Guid transactionId, Account sourceAccount, Account targetAccount,
+			decimal amount)
+		{
+			TransactionId = transactionId;
 			SourceAccount = sourceAccount;
 			TargetAccount = targetAccount;
 			Amount = decimal.Round(amount, 2);
@@ -20,14 +28,20 @@
 
 		public static void Create(Account sourceAccount, Account targetAccount, decimal amount)
 		{
-			var forwardsTransaction = new Transaction(sourceAccount, targetAccount, amount);
-			var backwardsTransaction = new Transaction(targetAccount, sourceAccount, -amount);
+			var transactions = new List<Transaction>()
+			{
+				new Transaction(Guid.NewGuid(), sourceAccount, targetAccount, amount),
+				new Transaction(Guid.NewGuid(), targetAccount, sourceAccount, -amount)
+			};
 
-			Ledger.Add(forwardsTransaction.TransactionId, forwardsTransaction);
-			Ledger.Add(backwardsTransaction.TransactionId, backwardsTransaction);
+			foreach (Transaction tx in transactions)
+			{
+				Ledger.Add(tx.TransactionId, tx);
+				tx.TargetAccount.CurrentValue += tx.Amount;
 
-			targetAccount.CurrentValue += forwardsTransaction.Amount;
-			sourceAccount.CurrentValue += backwardsTransaction.Amount;
+				Repository.Persistence.AddTransaction(tx);
+				Repository.Persistence.UpdateAccount(tx.TargetAccount);
+			}
 		}
 	}
 }

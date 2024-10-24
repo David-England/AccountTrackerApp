@@ -10,7 +10,10 @@ namespace AccountTrackerDB
 		public string? AccountHolderName { get; set; }
 		public decimal CurrentValue { get; set; }
 
-		public Account ToAccount() => new Account(AccountName!, AccountHolderName!);
+		public Account ToAccount()
+		{
+			return new Account(Guid.Parse(AccountId!), AccountName!, AccountHolderName!);
+		}
 
 		public void Update(Account account)
 		{

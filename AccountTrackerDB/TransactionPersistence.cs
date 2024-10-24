@@ -12,8 +12,8 @@ namespace AccountTrackerDB
 
 		public Transaction ToTransaction()
 		{
-			return
-				new Transaction(SourceAccount?.ToAccount()!, TargetAccount?.ToAccount()!, Amount);
+			return new Transaction(Guid.Parse(TransactionId!), SourceAccount?.ToAccount()!,
+				TargetAccount?.ToAccount()!, Amount);
 		}
 
 		public static TransactionPersistence Create(Transaction transaction)

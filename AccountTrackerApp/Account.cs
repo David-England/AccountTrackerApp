@@ -7,13 +7,20 @@
 		public string AccountHolderName { get; set; }
 		public decimal CurrentValue { get; internal set; }
 
-		public Account(string accountName, string accountHolderName)
+		public Account(Guid accountId, string accountName, string accountHolderName)
 		{
-			AccountId = Guid.NewGuid();
+			AccountId = accountId;
 			AccountName = accountName;
 			AccountHolderName = accountHolderName;
 		}
 
-		public static Account CreateDummy() => new Account(string.Empty, string.Empty);
+		public static Account Create(string accountName, string accountHolderName)
+		{
+			var account = new Account(Guid.NewGuid(), accountName, accountHolderName);
+			Repository.Persistence.AddAccount(account);
+			return account;
+		}
+
+		public static Account CreateDummy() => Create(string.Empty, string.Empty);
 	}
 }

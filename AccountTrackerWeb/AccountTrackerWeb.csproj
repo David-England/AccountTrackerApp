@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountTrackerApp\AccountTrackerApp.csproj" />
+    <ProjectReference Include="..\AccountTrackerDB\AccountTrackerDB.csproj" />
   </ItemGroup>
 
 </Project>
