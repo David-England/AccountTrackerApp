@@ -2,34 +2,34 @@
 {
 	public class AccountTracker : IAccountTracker
 	{
-		internal IPersistence Persistence { get; }
+		private IPersistence _persistence;
 
 		public AccountTracker(IPersistence persistence)
 		{
-			Persistence = persistence;
+			_persistence = persistence;
 		}
 
 		public IEnumerable<Account> GetAccounts()
 		{
-			return Persistence.GetAccounts()
+			return _persistence.GetAccounts()
 				.Where(a => a.AccountName != string.Empty || a.AccountHolderName != string.Empty)
 				.ToList();
 		}
 
 		public IEnumerable<Transaction> GetTransactions()
 		{
-			return Persistence.GetTransactions().ToList();
+			return _persistence.GetTransactions().ToList();
 		}
 
 		public void CreateAccount(string accountName, string accountHolderName)
 		{
-			Account.Create(accountName, accountHolderName).SaveNew(Persistence);
+			Account.Create(accountName, accountHolderName).SaveNew(_persistence);
 		}
 
 		public Account CreateDummyAccount()
 		{
 			Account dummy = Account.CreateDummy();
-			Persistence.AddAccount(dummy);
+			_persistence.AddAccount(dummy);
 			return dummy;
 		}
 
@@ -39,7 +39,7 @@
 				amount);
 
 			foreach (Transaction transaction in bothTransactions)
-				transaction.SaveNew(Persistence);
+				transaction.SaveNew(_persistence);
 		}
 	}
 }
