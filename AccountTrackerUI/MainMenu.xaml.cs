@@ -21,9 +21,11 @@ namespace AccountTrackerUI
 
 		public MainMenu()
 		{
+			Repository.Persistence = new PersistenceDummy();
+
 			InitializeComponent();
 
-			_myAccount = new Account("My General Account", "MR X. HUMAN");
+			_myAccount = Account.Create("My General Account", "MR X. HUMAN");
 		}
 
 		private void btnAdd10_Click(object sender, RoutedEventArgs e)
