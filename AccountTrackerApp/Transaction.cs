@@ -7,11 +7,6 @@
 		public Account TargetAccount { get; init; }
 		public decimal Amount { get; init; }
 
-		public static IEnumerable<Transaction> Ledger
-		{
-			get => Repository.Persistence.GetTransactions().ToList();
-		}
-
 		public Transaction(Guid transactionId, Account sourceAccount, Account targetAccount,
 			decimal amount)
 		{
@@ -21,7 +16,8 @@
 			Amount = decimal.Round(amount, 2);
 		}
 
-		public static void Create(Account sourceAccount, Account targetAccount, decimal amount)
+		internal static void Create(IPersistence persistence, Account sourceAccount,
+			Account targetAccount, decimal amount)
 		{
 			var transactions = new List<Transaction>()
 			{
@@ -33,8 +29,8 @@
 			{
 				tx.TargetAccount.CurrentValue += tx.Amount;
 
-				Repository.Persistence.AddTransaction(tx);
-				Repository.Persistence.UpdateAccount(tx.TargetAccount);
+				persistence.AddTransaction(tx);
+				persistence.UpdateAccount(tx.TargetAccount);
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 ﻿@inherits AccountComponentBase
-@inject IAccountContainer AllAccounts
+@inject IAccountTracker AccountTracker
 
 <div class="component">
 	<p>Please enter some details for your transaction:</p>
@@ -11,7 +11,7 @@
 			{
 				<option value="@account.AccountId">@account.AccountName</option>
 			}
-			<option value="@_externalAccount.AccountId">Pay external</option>
+			<option value="@ExternalAccount.AccountId">Pay external</option>
 		</InputSelect>
 	</div>
 
@@ -25,23 +25,34 @@
 
 @code {
 	private Guid _targetAccountId;
-	private Account _externalAccount = Account.CreateDummy();
+	private Account? _externalAccount;
 	private string? _amount;
 
 	[Parameter]
 	public EventCallback DoOnSubmit { get; set; }
 
+	protected Account ExternalAccount
+	{
+		get
+		{
+			if (_externalAccount == null)
+				_externalAccount = AccountTracker.CreateDummyAccount();
+
+			return _externalAccount;
+		}
+	}
+
 	private List<Account> GetAllOtherAccounts()
 	{
-		return AllAccounts.Accounts
+		return AccountTracker.GetAccounts()
 			.Where(a => a.AccountId != GetAccount().AccountId)
 			.ToList();
 	}
 
 	private Account? GetAccount(Guid accountId)
 	{
-		if (accountId == _externalAccount.AccountId)
-			return _externalAccount;
+		if (accountId == ExternalAccount.AccountId)
+			return ExternalAccount;
 		else
 			return GetAllOtherAccounts().FirstOrDefault(a => a.AccountId == accountId);
 	}
@@ -53,7 +64,7 @@
 		if (decimal.TryParse(_amount, out decimal parsedAmount)
 			&& parsedAmount > 0m
 			&& targetAccount != null)
-			Transaction.Create(GetAccount(), targetAccount, parsedAmount);
+			AccountTracker.CreateTransaction(GetAccount(), targetAccount, parsedAmount);
 
 		await DoOnSubmit.InvokeAsync();
 	}

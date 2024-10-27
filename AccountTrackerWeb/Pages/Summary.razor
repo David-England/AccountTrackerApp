@@ -1,6 +1,6 @@
 ﻿@page "/"
 
-@inject IAccountContainer AllAccounts
+@inject IAccountTracker AccountTracker
 @inject NavigationManager NavigationManager
 
 <PageTitle>Account Summary</PageTitle>
@@ -9,7 +9,7 @@
 
 <p>Please find details for all your accounts below.</p>
 
-@foreach (var account in AllAccounts.Accounts)
+@foreach (var account in AccountTracker.GetAccounts())
 {
 	<AccountCard Account="account" />
 }

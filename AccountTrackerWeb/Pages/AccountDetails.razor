@@ -1,6 +1,6 @@
 ﻿@page "/accountdetails/{accountid}"
 
-@inject IAccountContainer AllAccounts
+@inject IAccountTracker AccountTracker
 @inject NavigationManager NavigationManager
 
 <PageTitle>@GetAccount()?.AccountName | Details</PageTitle>
@@ -55,12 +55,14 @@
 
 	private Account? GetAccount()
 	{
-		return AllAccounts.Accounts.FirstOrDefault(a => a.AccountId.ToString() == AccountId);
+		return AccountTracker.GetAccounts()
+			.FirstOrDefault(a => a.AccountId.ToString() == AccountId);
 	}
 
 	private IEnumerable<Transaction> GetTransactions()
 	{
-		return Transaction.Ledger.Where(t => t.TargetAccount.AccountId == GetAccount()?.AccountId);
+		return AccountTracker.GetTransactions()
+			.Where(t => t.TargetAccount.AccountId == GetAccount()?.AccountId);
 	}
 
 	private void ToggleExternalTransferIn() => _showExternalTransferIn = !_showExternalTransferIn;

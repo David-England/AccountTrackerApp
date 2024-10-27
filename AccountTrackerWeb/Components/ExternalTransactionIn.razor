@@ -1,4 +1,5 @@
 ﻿@inherits AccountComponentBase
+@inject IAccountTracker AccountTracker
 
 <div class="component">
 	<p>Please enter some details for your transaction:</p>
@@ -19,7 +20,8 @@
 	private async void Submit()
 	{
 		if (decimal.TryParse(_amount, out decimal parsedAmount) && parsedAmount > 0m)
-			Transaction.Create(Account.CreateDummy(), GetAccount(), parsedAmount);
+			AccountTracker.CreateTransaction(AccountTracker.CreateDummyAccount(), GetAccount(),
+				parsedAmount);
 
 		await DoOnSubmit.InvokeAsync();
 	}

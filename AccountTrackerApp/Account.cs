@@ -16,13 +16,17 @@
 			CurrentValue = currentValue;
 		}
 
-		public static Account Create(string accountName, string accountHolderName)
+		internal static Account Create(IPersistence persistence, string accountName,
+			string accountHolderName)
 		{
 			var account = new Account(Guid.NewGuid(), accountName, accountHolderName);
-			Repository.Persistence.AddAccount(account);
+			persistence.AddAccount(account);
 			return account;
 		}
 
-		public static Account CreateDummy() => Create(string.Empty, string.Empty);
+		internal static Account CreateDummy(IPersistence persistence)
+		{
+			return Create(persistence, string.Empty, string.Empty);
+		}
 	}
 }
