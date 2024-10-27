@@ -12,7 +12,8 @@ namespace AccountTrackerDB
 
 		public Account ToAccount()
 		{
-			return new Account(Guid.Parse(AccountId!), AccountName!, AccountHolderName!);
+			return new Account(Guid.Parse(AccountId!), AccountName!, AccountHolderName!,
+				CurrentValue);
 		}
 
 		public void Update(Account account)
@@ -20,6 +21,7 @@ namespace AccountTrackerDB
 			AccountId = account.AccountId.ToString();
 			AccountName = account.AccountName;
 			AccountHolderName = account.AccountHolderName;
+			CurrentValue = account.CurrentValue;
 		}
 
 		public static AccountPersistence Create(Account account)

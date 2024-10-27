@@ -7,11 +7,13 @@
 		public string AccountHolderName { get; set; }
 		public decimal CurrentValue { get; internal set; }
 
-		public Account(Guid accountId, string accountName, string accountHolderName)
+		public Account(Guid accountId, string accountName, string accountHolderName,
+			decimal currentValue = 0.00m)
 		{
 			AccountId = accountId;
 			AccountName = accountName;
 			AccountHolderName = accountHolderName;
+			CurrentValue = currentValue;
 		}
 
 		public static Account Create(string accountName, string accountHolderName)
