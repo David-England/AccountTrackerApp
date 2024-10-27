@@ -17,21 +17,23 @@ namespace AccountTrackerUI
 	/// </summary>
 	public partial class MainMenu : Window
 	{
-		private Account _myAccount;
+		private IAccountTracker _accountTracker;
 
 		public MainMenu()
 		{
-			Repository.Persistence = new PersistenceDummy();
-
 			InitializeComponent();
 
-			_myAccount = Account.Create("My General Account", "MR X. HUMAN");
+			_accountTracker = new AccountTracker(new PersistenceDummy());
+			_accountTracker.CreateAccount("My General Account", "MR X. HUMAN");
 		}
 
 		private void btnAdd10_Click(object sender, RoutedEventArgs e)
 		{
-			Transaction.Create(Account.CreateDummy(), _myAccount, 10.00m);
-			lblAmount.Content = $"£{_myAccount.CurrentValue}";
+			Account account = _accountTracker.GetAccounts().First();
+
+			_accountTracker.CreateTransaction(_accountTracker.CreateDummyAccount(), account,
+				10.00m);
+			lblAmount.Content = $"£{account.CurrentValue}";
 		}
 	}
 }
