@@ -60,8 +60,7 @@
 
 	private IEnumerable<Transaction> GetTransactions()
 	{
-		return Transaction.Ledger.Values
-			.Where(t => t.TargetAccount.AccountId == GetAccount()?.AccountId);
+		return Transaction.Ledger.Where(t => t.TargetAccount.AccountId == GetAccount()?.AccountId);
 	}
 
 	private void ToggleExternalTransferIn() => _showExternalTransferIn = !_showExternalTransferIn;

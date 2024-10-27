@@ -16,12 +16,16 @@ namespace AccountTrackerDB
 
 		public IEnumerable<Account> GetAccounts()
 		{
-			return AccountPersistences.Select(ap => ap.ToAccount());
+			return AccountPersistences
+				.Select(ap => ap.ToAccount())
+				.ToList();
 		}
 
 		public IEnumerable<Transaction> GetTransactions()
 		{
-			return TransactionPersistences.Select(tp => tp.ToTransaction());
+			return TransactionPersistences
+				.Select(tp => tp.ToTransaction())
+				.ToList();
 		}
 
 		public void AddAccount(Account account)

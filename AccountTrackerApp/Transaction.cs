@@ -7,14 +7,9 @@
 		public Account TargetAccount { get; init; }
 		public decimal Amount { get; init; }
 
-		public static Dictionary<Guid, Transaction> Ledger
+		public static IEnumerable<Transaction> Ledger
 		{
-			get
-			{
-				return Repository.Persistence.GetTransactions()
-					.Select(t => new KeyValuePair<Guid, Transaction>(t.TransactionId, t))
-					.ToDictionary();
-			}
+			get => Repository.Persistence.GetTransactions().ToList();
 		}
 
 		public Transaction(Guid transactionId, Account sourceAccount, Account targetAccount,
