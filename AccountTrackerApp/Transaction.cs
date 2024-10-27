@@ -16,8 +16,8 @@
 			Amount = decimal.Round(amount, 2);
 		}
 
-		internal static void Create(IPersistence persistence, Account sourceAccount,
-			Account targetAccount, decimal amount)
+		internal static Transaction[] Create(Account sourceAccount, Account targetAccount,
+			decimal amount)
 		{
 			var transactions = new List<Transaction>()
 			{
@@ -26,12 +26,15 @@
 			};
 
 			foreach (Transaction tx in transactions)
-			{
 				tx.TargetAccount.CurrentValue += tx.Amount;
 
-				persistence.AddTransaction(tx);
-				persistence.UpdateAccount(tx.TargetAccount);
-			}
+			return transactions.ToArray();
+		}
+
+		internal void SaveNew(IPersistence persistence)
+		{
+			persistence.AddTransaction(this);
+			persistence.UpdateAccount(TargetAccount);
 		}
 	}
 }

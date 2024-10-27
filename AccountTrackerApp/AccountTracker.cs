@@ -21,16 +21,25 @@
 			return Persistence.GetTransactions().ToList();
 		}
 
-		public Account CreateAccount(string accountName, string accountHolderName)
+		public void CreateAccount(string accountName, string accountHolderName)
 		{
-			return Account.Create(Persistence, accountName, accountHolderName);
+			Account.Create(accountName, accountHolderName).SaveNew(Persistence);
 		}
 
-		public Account CreateDummyAccount() => Account.CreateDummy(Persistence);
+		public Account CreateDummyAccount()
+		{
+			Account dummy = Account.CreateDummy();
+			Persistence.AddAccount(dummy);
+			return dummy;
+		}
 
 		public void CreateTransaction(Account sourceAccount, Account targetAccount, decimal amount)
 		{
-			Transaction.Create(Persistence, sourceAccount, targetAccount, amount);
+			Transaction[] bothTransactions = Transaction.Create(sourceAccount, targetAccount,
+				amount);
+
+			foreach (Transaction transaction in bothTransactions)
+				transaction.SaveNew(Persistence);
 		}
 	}
 }

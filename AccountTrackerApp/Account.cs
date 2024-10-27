@@ -16,17 +16,13 @@
 			CurrentValue = currentValue;
 		}
 
-		internal static Account Create(IPersistence persistence, string accountName,
-			string accountHolderName)
+		internal static Account Create(string accountName, string accountHolderName)
 		{
-			var account = new Account(Guid.NewGuid(), accountName, accountHolderName);
-			persistence.AddAccount(account);
-			return account;
+			return new(Guid.NewGuid(), accountName, accountHolderName);
 		}
 
-		internal static Account CreateDummy(IPersistence persistence)
-		{
-			return Create(persistence, string.Empty, string.Empty);
-		}
+		internal static Account CreateDummy() => Create(string.Empty, string.Empty);
+
+		internal void SaveNew(IPersistence persistence) => persistence.AddAccount(this);
 	}
 }

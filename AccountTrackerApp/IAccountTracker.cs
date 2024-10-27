@@ -6,7 +6,7 @@
 
 		IEnumerable<Transaction> GetTransactions();
 
-		Account CreateAccount(string accountName, string accountHolderName);
+		void CreateAccount(string accountName, string accountHolderName);
 
 		Account CreateDummyAccount();
 
