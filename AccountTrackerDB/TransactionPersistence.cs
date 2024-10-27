@@ -16,11 +16,9 @@ namespace AccountTrackerDB
 				TargetAccount?.ToAccount()!, Amount);
 		}
 
-		public static TransactionPersistence Create(Transaction transaction)
+		public static TransactionPersistence Create(Transaction transaction,
+			AccountPersistence sourceAP, AccountPersistence targetAP)
 		{
-			var sourceAP = AccountPersistence.Create(transaction.SourceAccount);
-			var targetAP = AccountPersistence.Create(transaction.TargetAccount);
-
 			return new TransactionPersistence()
 			{
 				TransactionId = transaction.TransactionId.ToString(),

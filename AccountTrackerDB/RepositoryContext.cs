@@ -32,7 +32,13 @@ namespace AccountTrackerDB
 
 		public void AddTransaction(Transaction transaction)
 		{
-			TransactionPersistences.Add(TransactionPersistence.Create(transaction));
+			var sourceAP = AccountPersistences
+				.First(ap => ap.AccountId == transaction.SourceAccount.AccountId.ToString());
+			var targetAP = AccountPersistences
+				.First(ap => ap.AccountId == transaction.TargetAccount.AccountId.ToString());
+
+			TransactionPersistences.Add(TransactionPersistence.Create(transaction, sourceAP,
+				targetAP));
 			SaveChanges();
 		}
 
