@@ -45,7 +45,7 @@ namespace AccountTrackerDB
 		public void UpdateAccount(Account account)
 		{
 			AccountPersistences
-				.First(ap => Guid.Parse(ap.AccountId!) == account.AccountId)
+				.First(ap => ap.AccountId == account.AccountId.ToString())
 				.Update(account);
 
 			SaveChanges();
