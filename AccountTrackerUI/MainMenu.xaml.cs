@@ -31,8 +31,7 @@ namespace AccountTrackerUI
 		{
 			Account account = _accountTracker.GetAccounts().First();
 
-			_accountTracker.CreateTransaction(_accountTracker.CreateDummyAccount(), account,
-				10.00m);
+			_accountTracker.TransferInExternal(account, 10.00m);
 			lblAmount.Content = $"£{account.CurrentValue}";
 		}
 	}

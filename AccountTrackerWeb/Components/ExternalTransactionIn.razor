@@ -20,8 +20,7 @@
 	private async void Submit()
 	{
 		if (decimal.TryParse(_amount, out decimal parsedAmount) && parsedAmount > 0m)
-			AccountTracker.CreateTransaction(AccountTracker.CreateDummyAccount(), GetAccount(),
-				parsedAmount);
+			AccountTracker.TransferInExternal(GetAccount(), parsedAmount);
 
 		await DoOnSubmit.InvokeAsync();
 	}

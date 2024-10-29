@@ -26,20 +26,29 @@
 			Account.Create(accountName, accountHolderName).SaveNew(_persistence);
 		}
 
-		public Account CreateDummyAccount()
-		{
-			Account dummy = Account.CreateDummy();
-			_persistence.AddAccount(dummy);
-			return dummy;
-		}
-
-		public void CreateTransaction(Account sourceAccount, Account targetAccount, decimal amount)
+		public void Transfer(Account sourceAccount, Account targetAccount, decimal amount)
 		{
 			Transaction[] bothTransactions = Transaction.Create(sourceAccount, targetAccount,
 				amount);
 
 			foreach (Transaction transaction in bothTransactions)
 				transaction.SaveNew(_persistence);
+		}
+
+		public void TransferInExternal(Account targetAccount, decimal amount)
+		{
+			Account dummy = Account.CreateDummy();
+			_persistence.AddAccount(dummy);
+
+			Transfer(dummy, targetAccount, amount);
+		}
+
+		public void TransferOutExternal(Account sourceAccount, decimal amount)
+		{
+			Account dummy = Account.CreateDummy();
+			_persistence.AddAccount(dummy);
+
+			Transfer(sourceAccount, dummy, amount);
 		}
 	}
 }

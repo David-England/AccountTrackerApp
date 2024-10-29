@@ -6,12 +6,12 @@
 
 	<div>
 		<label for="targetAccount">To account:</label>
-		<InputSelect id="targetAccount" TValue="Guid" @bind-Value=_targetAccountId>
+		<InputSelect id="targetAccount" @bind-Value=_optionKey>
 			@foreach (var account in GetAllOtherAccounts())
 			{
-				<option value="@account.AccountId">@account.AccountName</option>
+				<option value="@account.AccountId.ToString()">@account.AccountName</option>
 			}
-			<option value="@ExternalAccount.AccountId">Pay external</option>
+			<option value="@PAY_EXTERNAL_OPTION_KEY">Pay external</option>
 		</InputSelect>
 	</div>
 
@@ -24,23 +24,12 @@
 </div>
 
 @code {
-	private Guid _targetAccountId;
-	private Account? _externalAccount;
+	private string? _optionKey;
+	private const string PAY_EXTERNAL_OPTION_KEY = "--";
 	private string? _amount;
 
 	[Parameter]
 	public EventCallback DoOnSubmit { get; set; }
-
-	protected Account ExternalAccount
-	{
-		get
-		{
-			if (_externalAccount == null)
-				_externalAccount = AccountTracker.CreateDummyAccount();
-
-			return _externalAccount;
-		}
-	}
 
 	private List<Account> GetAllOtherAccounts()
 	{
@@ -49,22 +38,23 @@
 			.ToList();
 	}
 
-	private Account? GetAccount(Guid accountId)
-	{
-		if (accountId == ExternalAccount.AccountId)
-			return ExternalAccount;
-		else
-			return GetAllOtherAccounts().FirstOrDefault(a => a.AccountId == accountId);
-	}
-
 	private async void Submit()
 	{
-		Account? targetAccount = GetAccount(_targetAccountId);
-
 		if (decimal.TryParse(_amount, out decimal parsedAmount)
 			&& parsedAmount > 0m
-			&& targetAccount != null)
-			AccountTracker.CreateTransaction(GetAccount(), targetAccount, parsedAmount);
+			&& _optionKey != null)
+		{
+			if (_optionKey == PAY_EXTERNAL_OPTION_KEY)
+				AccountTracker.TransferOutExternal(GetAccount(), parsedAmount);
+			else
+			{
+				Account? target = GetAllOtherAccounts()
+					.FirstOrDefault(a => a.AccountId.ToString() == _optionKey);
+
+				if (target != null)
+					AccountTracker.Transfer(GetAccount(), target, parsedAmount);
+			}
+		}
 
 		await DoOnSubmit.InvokeAsync();
 	}

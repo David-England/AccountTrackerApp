@@ -8,8 +8,10 @@
 
 		void CreateAccount(string accountName, string accountHolderName);
 
-		Account CreateDummyAccount();
+		void Transfer(Account sourceAccount, Account targetAccount, decimal amount);
 
-		void CreateTransaction(Account sourceAccount, Account targetAccount, decimal amount);
+		void TransferInExternal(Account targetAccount, decimal amount);
+
+		void TransferOutExternal(Account sourceAccount, decimal amount);
 	}
 }
