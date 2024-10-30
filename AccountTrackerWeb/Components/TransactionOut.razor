@@ -6,12 +6,11 @@
 
 	<div>
 		<label for="targetAccount">To account:</label>
-		<InputSelect id="targetAccount" @bind-Value=_optionKey>
-			@foreach (var account in GetAllOtherAccounts())
+		<InputSelect id="targetAccount" @bind-Value=@_optionKey>
+			@foreach (var option in _optionsAccountDDL!)
 			{
-				<option value="@account.AccountId.ToString()">@account.AccountName</option>
+				<option value="@option.Key">@option.Value</option>
 			}
-			<option value="@PAY_EXTERNAL_OPTION_KEY">Pay external</option>
 		</InputSelect>
 	</div>
 
@@ -24,18 +23,36 @@
 </div>
 
 @code {
-	private string? _optionKey;
 	private const string PAY_EXTERNAL_OPTION_KEY = "--";
+	private string? _optionKey;
 	private string? _amount;
+	private Dictionary<string, string>? _optionsAccountDDL;
 
 	[Parameter]
 	public EventCallback DoOnSubmit { get; set; }
+
+	protected override void OnInitialized()
+	{
+		base.OnInitialized();
+		PopulateAccountDDL();
+	}
 
 	private List<Account> GetAllOtherAccounts()
 	{
 		return AccountTracker.GetAccounts()
 			.Where(a => a.AccountId != GetAccount().AccountId)
 			.ToList();
+	}
+
+	private void PopulateAccountDDL()
+	{
+		_optionsAccountDDL = GetAllOtherAccounts()
+			.Select(a => (a.AccountId.ToString(), a.AccountName))
+			.ToDictionary();
+
+		_optionsAccountDDL.Add(PAY_EXTERNAL_OPTION_KEY, "Pay external");
+
+		_optionKey = _optionsAccountDDL.Keys.First();
 	}
 
 	private async void Submit()
