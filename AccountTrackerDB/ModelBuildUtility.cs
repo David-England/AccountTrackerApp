@@ -43,6 +43,20 @@ namespace AccountTrackerDB
 				.HasColumnName("transaction_id");
 
 			modelBuilder.Entity<TransactionPersistence>()
+				.HasOne(tp => tp.SourceAccount)
+				.WithMany()
+				.IsRequired()
+				.OnDelete(DeleteBehavior.NoAction)
+				.HasForeignKey("source_account_id");
+
+			modelBuilder.Entity<TransactionPersistence>()
+				.HasOne(tp => tp.TargetAccount)
+				.WithMany()
+				.IsRequired()
+				.OnDelete(DeleteBehavior.NoAction)
+				.HasForeignKey("target_account_id");
+
+			modelBuilder.Entity<TransactionPersistence>()
 				.Property(tp => tp.Amount)
 				.HasPrecision(18, 2)
 				.HasColumnName("amount");
