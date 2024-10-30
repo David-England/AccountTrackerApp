@@ -8,6 +8,12 @@ namespace AccountTrackerDB
 		DbSet<AccountPersistence> AccountPersistences { get; set; }
 		DbSet<TransactionPersistence> TransactionPersistences { get; set; }
 
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			ModelBuildUtility.SetupAccountPersistence(modelBuilder);
+			ModelBuildUtility.SetupTransactionPersistence(modelBuilder);
+		}
+
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
 			optionsBuilder.UseSqlServer(
