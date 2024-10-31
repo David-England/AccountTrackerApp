@@ -5,8 +5,14 @@ namespace AccountTrackerDB
 {
 	public class RepositoryContext : DbContext, IPersistence
 	{
+		private string _connectionString;
 		DbSet<AccountPersistence> AccountPersistences { get; set; }
 		DbSet<TransactionPersistence> TransactionPersistences { get; set; }
+
+		public RepositoryContext(string connectionString)
+		{
+			_connectionString = connectionString;
+		}
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -16,8 +22,7 @@ namespace AccountTrackerDB
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseSqlServer(
-				"Server=Davidstower;Database=AccountTrackerApp01;Trusted_Connection=True;TrustServerCertificate=True;");
+			optionsBuilder.UseSqlServer(_connectionString);
 		}
 
 		public IEnumerable<Account> GetAccounts()

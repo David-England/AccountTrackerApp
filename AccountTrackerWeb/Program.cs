@@ -5,10 +5,12 @@ using Microsoft.AspNetCore.Components.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var dbContext = new RepositoryContext(builder.Configuration.GetConnectionString("DB1")!);
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<IAccountTracker>(p => new AccountTracker(new RepositoryContext()));
+builder.Services.AddScoped<IAccountTracker>(p => new AccountTracker(dbContext));
 
 var app = builder.Build();
 
