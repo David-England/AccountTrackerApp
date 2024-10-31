@@ -9,7 +9,7 @@
 
 <p>Account: @GetAccount()?.AccountName</p>
 <p>Accountholder: @GetAccount()?.AccountHolderName</p>
-<p>Current total: £@GetAccount()?.CurrentValue</p>
+<p>Current total: £@GetAccount()?.CurrentValue.ToString("F2")</p>
 
 <div>
 	<button @onclick=ToggleExternalTransferIn>Add money</button>
@@ -35,7 +35,7 @@
 		<tr class="@(transaction.Amount < 0 ? "negative" : "")">
 			<td>@DashesIfNullOrEmpty(transaction.SourceAccount.AccountName)</td>
 			<td>@DashesIfNullOrEmpty(transaction.SourceAccount.AccountHolderName)</td>
-			<td>£@transaction.Amount</td>
+			<td>£@transaction.Amount.ToString("F2")</td>
 		</tr>
 	}
 </table>

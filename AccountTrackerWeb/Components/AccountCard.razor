@@ -4,7 +4,7 @@
 <div class="component clickable" @onclick=NavigateToAccount>
 	Account name: @GetAccount().AccountName /
 	Account holder: @GetAccount().AccountHolderName /
-	Current balance: £@GetAccount().CurrentValue
+	Current balance: £@GetAccount().CurrentValue.ToString("F2")
 </div>
 
 @code {
